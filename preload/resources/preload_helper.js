@@ -28,6 +28,9 @@ function verifyLoadedAndNoDoubleDownload(url) {
     // UA may create separate RT entries for preload and normal load,
     // so we just check (entries.length > 0).
     assert_greater_than(entries.length, 0, url + ' should be loaded');
+    if (entries.length == 0) {
+        return false;
+    }
 
     var numDownloads = 0;
     entries.forEach(entry => {
@@ -42,4 +45,5 @@ function verifyLoadedAndNoDoubleDownload(url) {
     assert_less_than_equal(
         numDownloads, 1,
         url + ' should be downloaded from network at most once');
+    return numDownloads < 2;
 }
